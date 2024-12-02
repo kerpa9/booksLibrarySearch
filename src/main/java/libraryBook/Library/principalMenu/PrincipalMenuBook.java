@@ -2,9 +2,13 @@ package libraryBook.Library.principalMenu;
 
 import java.util.Scanner;
 
+import libraryBook.Library.helpers.ConsultLibraryAPI;
+
 public class PrincipalMenuBook {
 
     public void optionsBooksLibrary() {
+
+        ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
 
         var option = -1;
 
@@ -14,21 +18,21 @@ public class PrincipalMenuBook {
 
             String menu = """
 
-            ************************************************************
-            
-            Choose a valid option
-            
-            1 - Search book for title
-            2 - Recorded list books
-            3 - Recorded autors list
-            4 - List living authors in a specific year
-            5 - Books by Language List
-            
-            0 - Close App
-            
+                    ************************************************************
 
-            ************************************************************
-            """;
+                    Choose a valid option
+
+                    1 - Search book for title
+                    2 - Recorded list books
+                    3 - Recorded autors list
+                    4 - List living authors in a specific year
+                    5 - Books by Language List
+
+                    0 - Close App
+
+
+                    ************************************************************
+                    """;
 
             System.out.println(menu);
             System.out.print("Option selected: ");
@@ -36,8 +40,11 @@ public class PrincipalMenuBook {
             write.nextLine();
 
             switch (option) {
+
                 case 1:
-                    System.out.println("Search book for title");
+
+                    String json = consultLibraryAPI.consultAPI("https://gutendex.com/books/");
+                    System.out.println(json);
                     break;
                 case 2:
                     System.out.println("Recorded list books");

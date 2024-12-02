@@ -8,7 +8,7 @@ import java.net.http.HttpResponse;
 
 public class ConsultLibraryAPI {
 
-    public String consultLibraryAPI(String url) {
+    public String consultAPI(String url) {
         HttpClient client = HttpClient.newHttpClient();
 
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).build();
