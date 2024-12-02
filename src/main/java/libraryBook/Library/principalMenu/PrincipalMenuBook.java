@@ -80,7 +80,7 @@ public class PrincipalMenuBook {
 
         DataBooksDTO data = converterDataBooks.obtainData(json, DataBooksDTO.class);
 
-        System.out.println(data.results());
+        System.out.println(data.results().get(0).toString());
         return data;
 
     }
