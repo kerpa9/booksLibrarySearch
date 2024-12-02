@@ -2,17 +2,18 @@ package libraryBook.Library.principalMenu;
 
 import java.util.Scanner;
 
+import libraryBook.Library.domain.dto.DataBooksDTO;
 import libraryBook.Library.helpers.ConsultLibraryAPI;
+import libraryBook.Library.helpers.ConverterDataBooks;
 
 public class PrincipalMenuBook {
+    ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
+    Scanner write = new Scanner(System.in);
+    ConverterDataBooks converterDataBooks = new ConverterDataBooks();
 
     public void optionsBooksLibrary() {
 
-        ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
-
         var option = -1;
-
-        Scanner write = new Scanner(System.in);
 
         while (option != 0) {
 
@@ -43,8 +44,9 @@ public class PrincipalMenuBook {
 
                 case 1:
 
-                    String json = consultLibraryAPI.consultAPI("https://gutendex.com/books/");
-                    System.out.println(json);
+                    // String json = consultLibraryAPI.consultAPI("https://gutendex.com/books/");
+                    // System.out.println(json);
+                    bookForTitle();
                     break;
                 case 2:
                     System.out.println("Recorded list books");
@@ -67,6 +69,19 @@ public class PrincipalMenuBook {
             }
 
         }
+
+    }
+
+    public DataBooksDTO bookForTitle() {
+
+        String url = "https://gutendex.com/books/?search=harry";
+
+        var json = consultLibraryAPI.consultAPI(url);
+
+        DataBooksDTO data = converterDataBooks.obtainData(json, DataBooksDTO.class);
+
+        System.out.println(data.results());
+        return data;
 
     }
 
