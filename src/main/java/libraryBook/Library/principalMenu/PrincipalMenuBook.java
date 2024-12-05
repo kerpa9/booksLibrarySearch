@@ -32,13 +32,13 @@ public class PrincipalMenuBook {
                     0 - Close App
 
 
-                    ************************************************************
                     """;
 
             System.out.println(menu);
-            System.out.print("Option selected: ");
+            System.out.print("Select a option: ");
             option = write.nextInt();
             write.nextLine();
+            System.out.println("************************************************************");
 
             switch (option) {
 
@@ -74,10 +74,8 @@ public class PrincipalMenuBook {
 
     public DataBooksDTO bookForTitle() {
 
-        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
-        
-        System.out.println("Write the book");
-        
+        System.out.print("Write the book: ");
+
         String book = write.nextLine();
 
         String url = "https://gutendex.com/books/?search=" + book;

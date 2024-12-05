@@ -9,7 +9,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public record DataResultsDTO(
         @JsonAlias("title") String title,
         @JsonAlias("languages") String [] languages,
-        @JsonAlias("authors") List<DataAutorDTO> authors
+        @JsonAlias("authors") List<DataAutorDTO> authors,
+        @JsonAlias("download_count") String download
 
 ) {
 
