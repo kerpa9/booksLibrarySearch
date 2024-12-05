@@ -74,7 +74,13 @@ public class PrincipalMenuBook {
 
     public DataBooksDTO bookForTitle() {
 
-        String url = "https://gutendex.com/books/?search=harry";
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
+        
+        System.out.println("Write the book");
+        
+        String book = write.nextLine();
+
+        String url = "https://gutendex.com/books/?search=" + book;
 
         var json = consultLibraryAPI.consultAPI(url);
 
