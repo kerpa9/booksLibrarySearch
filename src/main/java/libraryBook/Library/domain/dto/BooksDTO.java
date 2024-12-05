@@ -2,10 +2,10 @@ package libraryBook.Library.domain.dto;
 
 public record BooksDTO(
 
-        String name,
-        String autors,
-        String language,
-        String numDownload
+                String name,
+                // List<DataAutorDTO> authors,
+                String[] languages,
+                String numDownload
 
 ) {
 

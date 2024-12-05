@@ -2,14 +2,17 @@ package libraryBook.Library.principalMenu;
 
 import java.util.Scanner;
 
-import libraryBook.Library.domain.dto.DataBooksDTO;
+import libraryBook.Library.domain.dto.DataResultsDTO;
+import libraryBook.Library.domain.models.Books;
 import libraryBook.Library.helpers.ConsultLibraryAPI;
 import libraryBook.Library.helpers.ConverterDataBooks;
+import libraryBook.Library.repository.BooksRepository;
 
 public class PrincipalMenuBook {
-    ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
-    Scanner write = new Scanner(System.in);
-    ConverterDataBooks converterDataBooks = new ConverterDataBooks();
+    private ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
+    private Scanner write = new Scanner(System.in);
+    private ConverterDataBooks converterDataBooks = new ConverterDataBooks();
+    private BooksRepository booksRepository;
 
     public void optionsBooksLibrary() {
 
@@ -46,7 +49,8 @@ public class PrincipalMenuBook {
 
                     // String json = consultLibraryAPI.consultAPI("https://gutendex.com/books/");
                     // System.out.println(json);
-                    bookForTitle();
+                    // getBookData();
+                    searchBooks();
                     break;
                 case 2:
                     System.out.println("Recorded list books");
@@ -72,7 +76,7 @@ public class PrincipalMenuBook {
 
     }
 
-    public DataBooksDTO bookForTitle() {
+    public DataResultsDTO getBookData() {
 
         System.out.print("Write the book: ");
 
@@ -82,11 +86,19 @@ public class PrincipalMenuBook {
 
         var json = consultLibraryAPI.consultAPI(url);
 
-        DataBooksDTO data = converterDataBooks.obtainData(json, DataBooksDTO.class);
+        DataResultsDTO data = converterDataBooks.obtainData(json, DataResultsDTO.class);
 
-        System.out.println(data.results().get(0).toString());
+        // System.out.println(data.results().get(0).toString());
         return data;
 
+    }
+
+    public void searchBooks() {
+        DataResultsDTO book = getBookData();
+
+        Books books = new Books(book);
+        booksRepository.save(books);
+        System.out.println(books);
     }
 
 }
