@@ -6,6 +6,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class ConsultLibraryAPI {
 
     public String consultAPI(String url) {
@@ -26,7 +29,23 @@ public class ConsultLibraryAPI {
         }
 
         String json = response.body();
-        return json;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            JsonNode rootNode = objectMapper.readTree(json);
+            JsonNode resultsNode = rootNode.get("results");
+            // return resultsNode.toString();
+            if (resultsNode.isArray() && resultsNode.size() > 0) {
+                JsonNode firstResult = resultsNode.get(0); 
+                return firstResult.toString(); 
+            } else {
+                return "{}"; 
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Error", e);
+
+        }
     }
 
 }

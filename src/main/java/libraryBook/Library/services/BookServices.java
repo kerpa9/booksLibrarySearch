@@ -17,7 +17,7 @@ public class BookServices {
 
     public List<BooksDTO> allBooks() {
         return booksRepository.findAll().stream()
-                .map(b -> new BooksDTO(b.getName(), b.getLanguages(), b.getNumDownload()))
+                .map(b -> new BooksDTO(b.getName(), b.getNumDownload()))
                 .collect(Collectors.toList());
     }
 

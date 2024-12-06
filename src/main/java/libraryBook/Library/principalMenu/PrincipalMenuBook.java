@@ -12,7 +12,12 @@ public class PrincipalMenuBook {
     private ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
     private Scanner write = new Scanner(System.in);
     private ConverterDataBooks converterDataBooks = new ConverterDataBooks();
-    private BooksRepository booksRepository;
+    // @Autowired
+    private BooksRepository repository;
+
+    public PrincipalMenuBook(BooksRepository booksRepository) {
+        this.repository = booksRepository;
+    }
 
     public void optionsBooksLibrary() {
 
@@ -50,7 +55,7 @@ public class PrincipalMenuBook {
                     // String json = consultLibraryAPI.consultAPI("https://gutendex.com/books/");
                     // System.out.println(json);
                     // getBookData();
-                    searchBooks();
+                    saveDataDB();
                     break;
                 case 2:
                     System.out.println("Recorded list books");
@@ -88,17 +93,15 @@ public class PrincipalMenuBook {
 
         DataResultsDTO data = converterDataBooks.obtainData(json, DataResultsDTO.class);
 
-        // System.out.println(data.results().get(0).toString());
         return data;
 
     }
 
-    public void searchBooks() {
+    public void saveDataDB() {
         DataResultsDTO book = getBookData();
-
         Books books = new Books(book);
-        booksRepository.save(books);
-        System.out.println(books);
+        repository.save(books);
+
     }
 
 }
