@@ -35,7 +35,7 @@ public class PrincipalMenuBook {
                     2 - Recorded list books
                     3 - Recorded autors list
                     4 - List living authors in a specific year
-                    5 - Books by Language List
+                    5 - Books by Language List                      
 
                     0 - Close App
 
@@ -91,7 +91,9 @@ public class PrincipalMenuBook {
 
         var json = consultLibraryAPI.consultAPI(url);
 
+        
         DataResultsDTO data = converterDataBooks.obtainData(json, DataResultsDTO.class);
+        System.out.println(data);
 
         return data;
 

@@ -19,14 +19,15 @@ public class Books {
 
     private String name;
     private Double numDownload;
+    private String[] languages;
 
     public Books() {
     }
 
-
     public Books(DataResultsDTO book) {
         this.name = book.title();
         this.numDownload = book.numDownload();
+        this.languages = book.languages();
     }
 
 }
