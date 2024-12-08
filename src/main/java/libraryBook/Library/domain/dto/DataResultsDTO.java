@@ -13,13 +13,19 @@ public record DataResultsDTO(
                 @JsonAlias("authors") DataAuthorsDTO[] authors
 
 ) {
+
+
+
+
+
         @Override
         public final String toString() {
                 return "\n" + "-------------Book-------------" + "\n" + "\n" +
+                
                                 "Title: " + title + "\n" +
-                                "Languages: " + Arrays.toString(languages) + "\n" +
-                                "Downloads parameter: " + numDownload + "\n" +
-                                "Authors" + Arrays.toString(authors) + "\n" + "\n" +
+                                "Authors: " + Arrays.toString(authors).replace("[", "").replace("]", "") + "\n" +
+                                "Languages: " + Arrays.toString(languages).replace("[", "").replace("]", "") + "\n" +
+                                "Downloads parameters: " + numDownload + "\n" + "\n" +
                                 "------------------------------";
         }
 

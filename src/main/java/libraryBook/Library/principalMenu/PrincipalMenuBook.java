@@ -6,6 +6,7 @@ import libraryBook.Library.domain.dto.DataResultsDTO;
 import libraryBook.Library.domain.models.Books;
 import libraryBook.Library.helpers.ConsultLibraryAPI;
 import libraryBook.Library.helpers.ConverterDataBooks;
+import libraryBook.Library.repository.AuthorsRepository;
 import libraryBook.Library.repository.BooksRepository;
 
 public class PrincipalMenuBook {
@@ -14,9 +15,15 @@ public class PrincipalMenuBook {
     private ConverterDataBooks converterDataBooks = new ConverterDataBooks();
     // @Autowired
     private BooksRepository repository;
+    private AuthorsRepository authorRepository;
 
     public PrincipalMenuBook(BooksRepository booksRepository) {
         this.repository = booksRepository;
+    }
+
+    public PrincipalMenuBook(AuthorsRepository authorsRepository) {
+        this.authorRepository = authorRepository;
+
     }
 
     public void optionsBooksLibrary() {
@@ -35,7 +42,7 @@ public class PrincipalMenuBook {
                     2 - Recorded list books
                     3 - Recorded autors list
                     4 - List living authors in a specific year
-                    5 - Books by Language List                      
+                    5 - Books by Language List
 
                     0 - Close App
 
@@ -52,9 +59,6 @@ public class PrincipalMenuBook {
 
                 case 1:
 
-                    // String json = consultLibraryAPI.consultAPI("https://gutendex.com/books/");
-                    // System.out.println(json);
-                    // getBookData();
                     saveDataDB();
                     break;
                 case 2:
@@ -83,7 +87,7 @@ public class PrincipalMenuBook {
 
     public DataResultsDTO getBookData() {
 
-        System.out.print("Write the book: ");
+        System.out.print("Search the book: ");
 
         String book = write.nextLine();
 
@@ -91,11 +95,8 @@ public class PrincipalMenuBook {
 
         var json = consultLibraryAPI.consultAPI(url);
 
-        
         DataResultsDTO data = converterDataBooks.obtainData(json, DataResultsDTO.class);
         System.out.println(data);
-
-        
 
         return data;
 
@@ -108,5 +109,6 @@ public class PrincipalMenuBook {
         repository.save(books);
 
     }
+
 
 }
