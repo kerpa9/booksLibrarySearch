@@ -1,5 +1,7 @@
 package libraryBook.Library.principalMenu;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Scanner;
 
 import libraryBook.Library.domain.dto.DataResultsDTO;
@@ -16,6 +18,8 @@ public class PrincipalMenuBook {
     // @Autowired
     private BooksRepository repository;
     private AuthorsRepository authorRepository;
+
+    private List<Books> bookslist;
 
     public PrincipalMenuBook(BooksRepository booksRepository) {
         this.repository = booksRepository;
@@ -62,7 +66,7 @@ public class PrincipalMenuBook {
                     saveDataDB();
                     break;
                 case 2:
-                    System.out.println("Recorded list books");
+                    viewBooksSearch();
                     break;
                 case 3:
                     System.out.println("Recorded autors list");
@@ -102,7 +106,6 @@ public class PrincipalMenuBook {
 
     }
 
-
     public void saveDataDB() {
         DataResultsDTO book = getBookData();
         Books books = new Books(book);
@@ -110,5 +113,13 @@ public class PrincipalMenuBook {
 
     }
 
+    public void viewBooksSearch() {
+        System.out.println("-----------------------------------------");
+        bookslist = repository.findAll();
+
+        // System.out.println(bookslist);
+        bookslist.stream().sorted(Comparator.comparing(Books::getName)).forEach(System.out::println);
+
+    }
 
 }
