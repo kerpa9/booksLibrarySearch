@@ -24,6 +24,9 @@ public class Authors {
     @ManyToOne
     private Books book;
 
+    public Authors() {
+    }
+
     // Constructor from DataAuthorsDTO
     public Authors(DataAuthorsDTO authorDTO, Books book) {
         this.name = authorDTO.name();
@@ -32,6 +35,15 @@ public class Authors {
         this.book = book;
     }
 
+    @Override
+    public final String toString() {
+        return "\n" + "-------------Author: " + id + "-------------" + "\n" + "\n" +
 
+                "Title: " + name + "\n" +
+                "Birth Year: " + birthYear + "\n" +
+                "Death Year: " + deathYear + "\n" +
+                "Relation Book: " + book.getName() + "\n" + "\n" +
+                "------------------------------";
+    }
 
 }

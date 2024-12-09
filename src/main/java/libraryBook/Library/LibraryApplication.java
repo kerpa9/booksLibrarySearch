@@ -25,8 +25,7 @@ public class LibraryApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		PrincipalMenuBook principalMenu = new PrincipalMenuBook(booksRepository);
-		PrincipalMenuBook principalMenu1 = new PrincipalMenuBook(authorsRepository);
+		PrincipalMenuBook principalMenu = new PrincipalMenuBook(booksRepository, authorsRepository);
 
 		principalMenu.optionsBooksLibrary();
 	}

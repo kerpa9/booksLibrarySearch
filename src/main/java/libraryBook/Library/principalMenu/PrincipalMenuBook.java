@@ -3,8 +3,11 @@ package libraryBook.Library.principalMenu;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
+import libraryBook.Library.domain.dto.BooksDTO;
 import libraryBook.Library.domain.dto.DataResultsDTO;
+import libraryBook.Library.domain.models.Authors;
 import libraryBook.Library.domain.models.Books;
 import libraryBook.Library.helpers.ConsultLibraryAPI;
 import libraryBook.Library.helpers.ConverterDataBooks;
@@ -17,16 +20,15 @@ public class PrincipalMenuBook {
     private ConverterDataBooks converterDataBooks = new ConverterDataBooks();
     // @Autowired
     private BooksRepository repository;
-    private AuthorsRepository authorRepository;
+    private AuthorsRepository repositoryAuthor;
 
     private List<Books> bookslist;
+    private List<Authors> authors;
 
-    public PrincipalMenuBook(BooksRepository booksRepository) {
+    // Autowired
+    public PrincipalMenuBook(BooksRepository booksRepository, AuthorsRepository authorRepository) {
         this.repository = booksRepository;
-    }
-
-    public PrincipalMenuBook(AuthorsRepository authorsRepository) {
-        this.authorRepository = authorRepository;
+        this.repositoryAuthor = authorRepository;
 
     }
 
@@ -69,12 +71,16 @@ public class PrincipalMenuBook {
                     viewBooksSearch();
                     break;
                 case 3:
-                    System.out.println("Recorded autors list");
+
+                    viewAuthorsList();
                     break;
                 case 4:
+                    listAuthorsYear();
                     System.out.println("List living authors in a specific year");
                     break;
                 case 5:
+                    // listBooksByLanguages();
+                    listBooksLanguages();
                     System.out.println("Books by Language List");
                     break;
                 case 0:
@@ -114,12 +120,33 @@ public class PrincipalMenuBook {
     }
 
     public void viewBooksSearch() {
-        System.out.println("-----------------------------------------");
         bookslist = repository.findAll();
 
-        // System.out.println(bookslist);
         bookslist.stream().sorted(Comparator.comparing(Books::getName)).forEach(System.out::println);
 
+    }
+
+    public void viewAuthorsList() {
+        // viewBooksSea rch();
+        authors = repositoryAuthor.findAll();
+        authors.stream().sorted(Comparator.comparing(Authors::getBirthYear)).forEach(System.out::println);
+    }
+
+    public void listAuthorsYear() {
+    }
+
+    public List<BooksDTO> listBooksLanguages() {
+        System.out.println("Write ");
+        String language = write.nextLine();
+        System.out.println(dataConverter(repository.booksToLanguage(language)));
+        return dataConverter(repository.booksToLanguage(language));
+
+    }
+
+    public List<BooksDTO> dataConverter(List<Books> book) {
+
+        return book.stream()
+                .map(b -> new BooksDTO(b.getName(), b.getLanguages(), b.getNumDownload())).collect(Collectors.toList());
     }
 
 }
