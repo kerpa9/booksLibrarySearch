@@ -135,7 +135,6 @@ public class PrincipalMenuBook {
             repository.save(books);
         } catch (Exception e) {
             System.err.println("Error occurred while saving book data: " + e.getMessage());
-            e.printStackTrace();
             throw new ValidateException("Error saving the book data to the database: " + e.getMessage());
         }
 
@@ -154,7 +153,7 @@ public class PrincipalMenuBook {
     }
 
     public List<AuthorDTO> listAuthorsYear() {
-        System.out.println("Write ");
+        System.out.println("Write a year to living authors in a specific");
         Integer year = write.nextInt();
         System.out.println(repositoryAuthor.listAuthorsLive(year));
         return dataConverterAuthors(repositoryAuthor.listAuthorsLive(year));
@@ -162,9 +161,29 @@ public class PrincipalMenuBook {
     }
 
     public List<BooksDTO> listBooksLanguages() {
-        System.out.println("Write ");
+
+        System.out.println("""
+
+                Write a language to finding books in a specific.
+
+                Options:
+
+                -es -> Spanish
+                -en -> English
+                -fr -> French
+                -pt -> Portuguese
+
+                    """);
+
         String language = write.nextLine();
-        System.out.println(dataConverterBooks(repository.booksToLanguage(language)));
+
+        if (language.length() > 2) {
+            System.out.println("No options valid");
+
+        } else {
+
+            System.out.println(dataConverterBooks(repository.booksToLanguage(language)));
+        }
         return dataConverterBooks(repository.booksToLanguage(language));
 
     }
