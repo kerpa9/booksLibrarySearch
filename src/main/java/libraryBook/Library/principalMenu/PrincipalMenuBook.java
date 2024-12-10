@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import libraryBook.Library.config.handleException.ValidateException;
 import libraryBook.Library.domain.dto.AuthorDTO;
 import libraryBook.Library.domain.dto.BooksDTO;
 import libraryBook.Library.domain.dto.DataResultsDTO;
@@ -64,16 +65,27 @@ public class PrincipalMenuBook {
 
             switch (option) {
 
-                case 1 -> saveDataDB();
-                case 2 -> viewBooksSearch();
-                case 3 -> viewAuthorsList();
+                case 1 -> {
+                    System.out.println("Write book or authors for search");
+                    saveDataDB();
+
+                }
+                case 2 -> {
+                    System.out.println("List of saved books");
+                    viewBooksSearch();
+                }
+                case 3 -> {
+                    System.out.println("List of saved authors");
+                    viewAuthorsList();
+                }
+
                 case 4 -> {
-                    listAuthorsYear();
                     System.out.println("List living authors in a specific year");
+                    listAuthorsYear();
                 }
                 case 5 -> {
-                    listBooksLanguages();
                     System.out.println("Books by Language List");
+                    listBooksLanguages();
                 }
                 case 0 -> System.out.println("Close this app, thanks");
                 default -> System.out.println("Option not found");
@@ -94,23 +106,43 @@ public class PrincipalMenuBook {
 
         var json = consultLibraryAPI.consultAPI(url);
 
-        DataResultsDTO data = converterDataBooks.obtainData(json, DataResultsDTO.class);
-        System.out.println(data);
+        try {
+            DataResultsDTO data = converterDataBooks.obtainData(json, DataResultsDTO.class);
 
-        return data;
+            if (data.title() == null) {
+                System.out.println("Error finding the book data to the API");
+            } else {
+
+                System.out.println(data);
+            }
+            return data;
+
+        } catch (RuntimeException e) {
+            throw new ValidateException("Error finding the book data to the API");
+        }
 
     }
 
     public void saveDataDB() {
+
         DataResultsDTO book = getBookData();
-        Books books = new Books(book);
-        repository.save(books);
+        if (book.title() == null) {
+            return;
+        }
+
+        try {
+            Books books = new Books(book);
+            repository.save(books);
+        } catch (Exception e) {
+            System.err.println("Error occurred while saving book data: " + e.getMessage());
+            e.printStackTrace();
+            throw new ValidateException("Error saving the book data to the database: " + e.getMessage());
+        }
 
     }
 
     public void viewBooksSearch() {
         bookslist = repository.findAll();
-
         bookslist.stream().sorted(Comparator.comparing(Books::getName)).forEach(System.out::println);
 
     }
