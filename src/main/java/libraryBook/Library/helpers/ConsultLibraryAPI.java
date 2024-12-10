@@ -25,9 +25,7 @@ public class ConsultLibraryAPI {
 
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
 

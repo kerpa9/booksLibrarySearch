@@ -13,9 +13,11 @@ public record BooksDTO(
     
     @Override
     public final String toString() {
-        return "\n" + "-------------Book-------------" + "\n" + "\n" +
-
-                "Title: " + name + "\n" +
+        return """
+               
+               -------------Book-------------
+               
+               Title: """ + name + "\n" +
                 "Languages: " + Arrays.toString(languages).replace("[", "").replace("]", "") + "\n" +
                 "Downloads parameters: " + numDownload + "\n" + "\n" +
                 "------------------------------";

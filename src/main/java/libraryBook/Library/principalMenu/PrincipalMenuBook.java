@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import libraryBook.Library.domain.dto.AuthorDTO;
 import libraryBook.Library.domain.dto.BooksDTO;
 import libraryBook.Library.domain.dto.DataResultsDTO;
 import libraryBook.Library.domain.models.Authors;
@@ -15,12 +16,12 @@ import libraryBook.Library.repository.AuthorsRepository;
 import libraryBook.Library.repository.BooksRepository;
 
 public class PrincipalMenuBook {
-    private ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
-    private Scanner write = new Scanner(System.in);
-    private ConverterDataBooks converterDataBooks = new ConverterDataBooks();
+    private final ConsultLibraryAPI consultLibraryAPI = new ConsultLibraryAPI();
+    private final Scanner write = new Scanner(System.in);
+    private final ConverterDataBooks converterDataBooks = new ConverterDataBooks();
     // @Autowired
-    private BooksRepository repository;
-    private AuthorsRepository repositoryAuthor;
+    private final BooksRepository repository;
+    private final AuthorsRepository repositoryAuthor;
 
     private List<Books> bookslist;
     private List<Authors> authors;
@@ -63,31 +64,19 @@ public class PrincipalMenuBook {
 
             switch (option) {
 
-                case 1:
-
-                    saveDataDB();
-                    break;
-                case 2:
-                    viewBooksSearch();
-                    break;
-                case 3:
-
-                    viewAuthorsList();
-                    break;
-                case 4:
+                case 1 -> saveDataDB();
+                case 2 -> viewBooksSearch();
+                case 3 -> viewAuthorsList();
+                case 4 -> {
                     listAuthorsYear();
                     System.out.println("List living authors in a specific year");
-                    break;
-                case 5:
-                    // listBooksByLanguages();
+                }
+                case 5 -> {
                     listBooksLanguages();
                     System.out.println("Books by Language List");
-                    break;
-                case 0:
-                    System.out.println("Close this app, thanks");
-                    break;
-                default:
-                    System.out.println("Option not found");
+                }
+                case 0 -> System.out.println("Close this app, thanks");
+                default -> System.out.println("Option not found");
 
             }
 
@@ -132,18 +121,29 @@ public class PrincipalMenuBook {
         authors.stream().sorted(Comparator.comparing(Authors::getBirthYear)).forEach(System.out::println);
     }
 
-    public void listAuthorsYear() {
+    public List<AuthorDTO> listAuthorsYear() {
+        System.out.println("Write ");
+        Integer year = write.nextInt();
+        System.out.println(repositoryAuthor.listAuthorsLive(year));
+        return dataConverterAuthors(repositoryAuthor.listAuthorsLive(year));
+
     }
 
     public List<BooksDTO> listBooksLanguages() {
         System.out.println("Write ");
         String language = write.nextLine();
-        System.out.println(dataConverter(repository.booksToLanguage(language)));
-        return dataConverter(repository.booksToLanguage(language));
+        System.out.println(dataConverterBooks(repository.booksToLanguage(language)));
+        return dataConverterBooks(repository.booksToLanguage(language));
 
     }
 
-    public List<BooksDTO> dataConverter(List<Books> book) {
+    public List<AuthorDTO> dataConverterAuthors(List<Authors> autho) {
+
+        return autho.stream().map(a -> new AuthorDTO(a.getName(), a.getBirthYear(), a.getDeathYear()))
+                .collect(Collectors.toList());
+    }
+
+    public List<BooksDTO> dataConverterBooks(List<Books> book) {
 
         return book.stream()
                 .map(b -> new BooksDTO(b.getName(), b.getLanguages(), b.getNumDownload())).collect(Collectors.toList());

@@ -20,9 +20,11 @@ public record DataResultsDTO(
 
         @Override
         public final String toString() {
-                return "\n" + "-------------Book-------------" + "\n" + "\n" +
-                
-                                "Title: " + title + "\n" +
+                return """
+                       
+                       -------------Book-------------
+                       
+                       Title: """ + title + "\n" +
                                 "Authors: " + Arrays.toString(authors).replace("[", "").replace("]", "") + "\n" +
                                 "Languages: " + Arrays.toString(languages).replace("[", "").replace("]", "") + "\n" +
                                 "Downloads parameters: " + numDownload + "\n" + "\n" +

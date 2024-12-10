@@ -51,12 +51,18 @@ public class Books {
 
     @Override
     public final String toString() {
-        return "\n" + "-------------Book: " + id + "-------------" + "\n" + "\n" +
+        return """
+               
+               -------------Book: """ + id + "-------------" + "\n" + "\n" +
 
                 "Title: " + name + "\n" +
                 "Languages: " + Arrays.toString(languages).replace("[", "").replace("]", "") + "\n" +
                 "Downloads parameters: " + numDownload + "\n" + "\n" +
                 "------------------------------";
+    }
+
+    public void setAuthors(List<Authors> authors) {
+        this.authors = authors;
     }
 
 }
